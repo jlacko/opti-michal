@@ -4,7 +4,7 @@ library(RCzechia)
 library(dplyr)
 library(sf)
 
-velikost <- units::set_units(1, "km2")
+velikost <- units::set_units(1/16, "km2") 
 
 # obrysy Prahy - v metrickém CRS
 praha <- kraje() %>% 
@@ -17,11 +17,26 @@ grid <- praha %>%
    st_as_sf() %>% 
    mutate(grid_id = 1:n())
 
-# 
+
+# rastery z RCzechia - hrana pixelu = 25m
+dolni <- terra::rast("~/Documents/RCzechia/data-raw/eu_dem_v11_E40N20.TIF")
+horni <- terra::rast("~/Documents/RCzechia/data-raw/eu_dem_v11_E40N30.TIF")
+
+celek <- terra::merge(horni, dolni)
+
+# okolí republiky (ne jej)
+maska <- grid %>%
+   st_bbox() %>%
+   st_as_sfc() %>%
+   st_transform(st_crs(celek)) 
+
+cast <- terra::crop(celek, maska, mask = T)
+
 
 # průměrná výška gridu v metrech nad mořem
 grid$vyska <- exactextractr::exact_extract(
-   x = vyskopis("actual"), 
+#   x = vyskopis("actual"), # z RCzechia - hrana pixelu = 100m
+   x = cast,
    y = grid, 
    fun = "mean" 
 ) 

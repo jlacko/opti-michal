@@ -2,18 +2,14 @@ library(sf)
 library(dplyr)
 library(sfnetworks)
 
-
-uzly <- st_read("./data/grid.gpkg", layer = "centroidy")
-hrany <- st_read("./data/grid.gpkg", layer = "spojnice")
-
-sit <- sfnetwork(uzly, hrany, directed = F)
+sit <- readRDS("./data/network.rds")
 
 # index uzlů nejbližších k zadané adrese
-idx_pocatek <- RCzechia::geocode("náměstí Winstona Churchilla 1938/4, Praha 3") %>% 
+idx_pocatek <- RCzechia::geocode("Sokolovská 663/136c, Karlín, 18600 Praha 8") %>% 
    st_transform(st_crs(sit)) %>% 
    st_nearest_feature(sit)
 
-idx_cil <- RCzechia::geocode("Ke Karlovu 2027/3, Praha 2") %>% 
+idx_cil <- RCzechia::geocode("Vladivostocká 1460/10b, Vršovice, 10000 Praha 10") %>% 
    st_transform(st_crs(sit)) %>% 
    st_nearest_feature(sit)
 
@@ -27,7 +23,7 @@ cesta_numericky <- st_network_paths(sit,
                                     from = start, 
                                     to = cil, 
                                     # alternativy: vzdalenost / prevyseni
-                                    weights = "prevyseni")
+                                    weights = "vzdalenost")
 
 # cesta jako sekvence hran / podle sekvence uzlů...
 cesta_graficky <- sit %>%
@@ -36,6 +32,11 @@ cesta_graficky <- sit %>%
    activate("edges") %>% 
    st_as_sf()
 
+# vzdálenost "as the crow flies"
+st_distance(start, cil, by_element = TRUE)
+
+# vzdálenost po cestě
+sum(st_length(cesta_graficky))
 
 # o výsledkku podat zprávu
 mapview::mapview(cesta_graficky)
