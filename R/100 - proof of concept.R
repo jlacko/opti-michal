@@ -8,9 +8,19 @@ hrany <- st_read("./data/grid.gpkg", layer = "spojnice")
 
 sit <- sfnetwork(uzly, hrany, directed = F)
 
+# index uzlů nejbližších k zadané adrese
+idx_pocatek <- RCzechia::geocode("náměstí Winstona Churchilla 1938/4, Praha 3") %>% 
+   st_transform(st_crs(sit)) %>% 
+   st_nearest_feature(sit)
+
+idx_cil <- RCzechia::geocode("Ke Karlovu 2027/3, Praha 2") %>% 
+   st_transform(st_crs(sit)) %>% 
+   st_nearest_feature(sit)
+
 # start a cíl jako body v síti
-start <- st_geometry(sit, "nodes")[509] # 541 = ekonomka; 509 = Eden
-cil <- st_geometry(sit, "nodes")[649] # 571 = matfyz; 649 = Balabenka
+start <- st_geometry(sit, "nodes")[idx_pocatek] 
+cil <- st_geometry(sit, "nodes")[idx_cil]
+
 
 # cesta jako sekvence uzlů
 cesta_numericky <- st_network_paths(sit,
