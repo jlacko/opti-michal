@@ -14,7 +14,9 @@ rm(con)
 cena_stavby <- function(prevyseni) {
    
    # převýšení do 12 promile cajk, jinak totální penalta
-   ifelse(prevyseni <= 0.012 * metadata$value[metadata$code == "roztec"], prevyseni, 1000)
+   case_when(prevyseni == 0 ~ 1/2,
+             prevyseni <= 0.012 * metadata$value[metadata$code == "roztec"] ~ prevyseni,
+             T ~ 1000)
    
 }
 
@@ -22,7 +24,7 @@ cena_stavby <- function(prevyseni) {
 # načíst objekty
 uzly <- st_read("./data/grid.gpkg", layer = "centroidy")
 hrany <- st_read("./data/grid.gpkg", layer = "spojnice") %>% 
-   mutate(cena_prevyseni = cena_stavby(prevyseni))
+   mutate(cena_stavby = cena_stavby(prevyseni))
 
 sit <- sfnetwork(uzly, hrany, directed = F)
 

@@ -4,13 +4,15 @@ library(RCzechia)
 library(dplyr)
 library(sf)
 
-velikost <- units::set_units(1/16, "km2") 
+velikost <- units::set_units(1/256, "km2") 
 
-# obrysy Prahy - v metrickém CRS
-praha <- kraje() %>% 
-   filter(KOD_CZNUTS3 == "CZ010") %>% 
-   st_transform(3035)
-
+# centrální Praha = okolí ÚV KSČ
+praha <- RCzechia::geocode("Politických vězňů 1531/9, Nové Město, 11000 Praha 1") %>% 
+   st_transform(3035) %>% 
+   st_buffer(units::set_units(4, "km")) %>% 
+   st_bbox() %>% 
+   st_as_sfc()
+   
 # equal area grid - kilometřík je dobrá míra...
 grid <- praha %>% 
    st_make_grid(cellsize = velikost) %>% 

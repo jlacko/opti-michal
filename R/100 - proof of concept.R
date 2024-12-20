@@ -5,11 +5,11 @@ library(sfnetworks)
 sit <- readRDS("./data/network.rds")
 
 # index uzlů nejbližších k zadané adrese
-idx_pocatek <- RCzechia::geocode("Sokolovská 663/136c, Karlín, 18600 Praha 8") %>% 
+idx_pocatek <- RCzechia::geocode("Milady Horákové 1066/98, Bubeneč, 17000 Praha 7") %>% 
    st_transform(st_crs(sit)) %>% 
    st_nearest_feature(sit)
 
-idx_cil <- RCzechia::geocode("Vladivostocká 1460/10b, Vršovice, 10000 Praha 10") %>% 
+idx_cil <- RCzechia::geocode("U Slavie 1540/2a, Vršovice, 10000 Praha 10") %>% 
    st_transform(st_crs(sit)) %>% 
    st_nearest_feature(sit)
 
@@ -22,8 +22,8 @@ cil <- st_geometry(sit, "nodes")[idx_cil]
 cesta_numericky <- st_network_paths(sit,
                                     from = start, 
                                     to = cil, 
-                                    # alternativy: vzdalenost / prevyseni
-                                    weights = "vzdalenost")
+                                    # alternativy: vzdalenost / prevyseni / cena_stavby
+                                    weights = "cena_stavby")
 
 # cesta jako sekvence hran / podle sekvence uzlů...
 cesta_graficky <- sit %>%

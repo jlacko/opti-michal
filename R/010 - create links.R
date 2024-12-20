@@ -56,7 +56,7 @@ for (node in centroidy$grid_id) {
    o_radu <- pmin(aktualni + sirka_matice, nrow(centroidy))
    
    # jednou za čas ET call home
-   if (aktualni %% 100 == 0) cat(paste(Sys.time(),
+   if (aktualni %% 250 == 0) cat(paste(Sys.time(),
                                        "Zpráva z krizového vývoje:",
                                        aktualni,
                                        "done;",
