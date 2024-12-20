@@ -5,11 +5,13 @@ library(sfnetworks)
 sit <- readRDS("./data/network.rds")
 
 # index uzlů nejbližších k zadané adrese
+#idx_pocatek <- RCzechia::geocode("Sokolovská 49/83, Karlín, 18600 Praha 8") %>% 
 idx_pocatek <- RCzechia::geocode("Milady Horákové 1066/98, Bubeneč, 17000 Praha 7") %>% 
    st_transform(st_crs(sit)) %>% 
    st_nearest_feature(sit)
 
-idx_cil <- RCzechia::geocode("U Slavie 1540/2a, Vršovice, 10000 Praha 10") %>% 
+#idx_cil <- RCzechia::geocode("Ke Karlovu 2027/3, Nové Město, 12000 Praha 2") %>% 
+idx_cil <- RCzechia::geocode("U Slavie 1540/2a, Vršovice, 10000 Praha 10") %>%
    st_transform(st_crs(sit)) %>% 
    st_nearest_feature(sit)
 
