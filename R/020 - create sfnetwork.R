@@ -2,7 +2,7 @@ library(sf)
 library(dplyr)
 library(sfnetworks)
 
-cesta <- "./data/grid_64.gpkg"
+cesta <- "./data/grid_1024.gpkg"
 
 # načíst metadata
 con <- DBI::dbConnect(RSQLite::SQLite(), cesta) # připojit databázi
@@ -27,6 +27,6 @@ uzly <- st_read(cesta, layer = "centroidy")
 hrany <- st_read(cesta, layer = "spojnice") %>% 
    mutate(cena_stavby = cena_stavby(prevyseni))
 
-sit <- sfnetwork(uzly, hrany, directed = F)
+sit <- sfnetwork(uzly, hrany, directed = F, force = T) # bacha: bez force (eliminace kontroly) padá na memory
 
 saveRDS(sit, paste0(fs::path_ext_remove(cesta), ".rds"))
