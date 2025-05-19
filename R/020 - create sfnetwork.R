@@ -2,9 +2,10 @@ library(sf)
 library(dplyr)
 library(sfnetworks)
 
+cesta <- "./data/grid_64.gpkg"
 
 # načíst metadata
-con <- DBI::dbConnect(RSQLite::SQLite(), "./data/grid.gpkg") # připojit databázi
+con <- DBI::dbConnect(RSQLite::SQLite(), cesta) # připojit databázi
 
 metadata <- DBI::dbReadTable(con, "metadata")
 
@@ -22,11 +23,10 @@ cena_stavby <- function(prevyseni) {
 
 
 # načíst objekty
-uzly <- st_read("./data/grid.gpkg", layer = "centroidy")
-hrany <- st_read("./data/grid.gpkg", layer = "spojnice") %>% 
+uzly <- st_read(cesta, layer = "centroidy")
+hrany <- st_read(cesta, layer = "spojnice") %>% 
    mutate(cena_stavby = cena_stavby(prevyseni))
 
 sit <- sfnetwork(uzly, hrany, directed = F)
 
-
-saveRDS(sit, "./data/network.rds")
+saveRDS(sit, paste0(fs::path_ext_remove(cesta), ".rds"))
