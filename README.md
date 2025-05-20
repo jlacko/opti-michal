@@ -6,6 +6,7 @@ Cesta k řešení je následujicí:
 - `010 - create links.R` v gridu definovaném dle předchozího bodu vytvoří spojnice jako čáry
 - `020 - create sfnetworks.R` nad gridem, včetně spojnic, vytvoří síť třídy `{sfnetworks}`
 - `100 - proof of concept.R` nad objektem třídy sfnetworks spočte navigační problém
+- `110 - performance plot.R` vykreslí hezký obrázek nad spočtenými cestami
 
 Pro proof of concept jsou definovány dvě "standardní" cesty:
 
