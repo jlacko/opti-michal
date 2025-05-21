@@ -11,6 +11,6 @@ Cesta k řešení je následujicí:
 Pro proof of concept jsou definovány dvě "standardní" cesty:
 
 - ze Sparty na Slavii
-- z [Matfyzu Karlín](https://www.mff.cuni.cz/cs/vnitrni-zalezitosti/budovy-a-arealy/karlin) na [Matfyz Albertov](https://www.mff.cuni.cz/cs/vnitrni-zalezitosti/budovy-a-arealy/karlov)
+- z [Matfyzu Karlín](https://www.mff.cuni.cz/cs/vnitrni-zalezitosti/budovy-a-arealy/karlin) na [Matfyz Karlov](https://www.mff.cuni.cz/cs/vnitrni-zalezitosti/budovy-a-arealy/karlov)
 
 Je očekávaný stav, že cesty z bodu A do bodu B povedou rozhodující měrou korytem Vltavy; široko daleko není jiný terén s menším převýšením, nežli dokonale vodorovná hladina řeky.
