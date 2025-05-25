@@ -2,7 +2,7 @@ library(sf)
 library(dplyr)
 library(sfnetworks)
 
-cesta <- "./data/grid_1024.gpkg"
+cesta <- "./data/grid_MC_rot.gpkg"
 
 # načíst metadata
 con <- DBI::dbConnect(RSQLite::SQLite(), cesta) # připojit databázi
@@ -17,7 +17,7 @@ cena_stavby <- function(prevyseni) {
    # převýšení do 12 promile cajk, jinak totální penalta
    case_when(prevyseni == 0 ~ 1/2,
              prevyseni <= 0.012 * metadata$value[metadata$code == "roztec"] ~ prevyseni,
-             T ~ 1000)
+             T ~ Inf)
    
 }
 
